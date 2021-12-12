@@ -3,7 +3,7 @@ const ctx = c.getContext("2d");
 const width = 600;
 const height = 600;
 
-const horse = new Horse();
+const horse = new Horse(200, 200);
 
 function updateBoard() {
     const backgroundColor = "#ffffff";

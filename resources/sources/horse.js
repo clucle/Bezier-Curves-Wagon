@@ -1,11 +1,11 @@
 class Horse {
 
-    constructor() {
+    constructor(x, y) {
         this.img = new Image();
         this.img.src = './resources/images/horse.png';
         this.angle = 0;
-        this.x = 0;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
         this.keyMap = {
             'ArrowLeft': false,
             'ArrowRight': false,
@@ -24,8 +24,8 @@ class Horse {
             horse.angle += angleDiff;
         }
         if (this.keyMap['ArrowUp'] === true) {
-            this.y += speed * Math.sin(Math.PI / 180 * this.angle);
             this.x += speed * Math.cos(Math.PI / 180 * this.angle);
+            this.y += speed * Math.sin(Math.PI / 180 * this.angle);
         }
 
         this.draw(ctx);
@@ -33,7 +33,7 @@ class Horse {
 
     draw(ctx) {
         ctx.save();
-        ctx.translate(this.x + Horse.width / 2, this.y + Horse.height / 2);
+        ctx.translate(this.x, this.y);
         ctx.rotate(Math.PI / 180 * this.angle);
         ctx.drawImage(
             this.img,
@@ -42,6 +42,13 @@ class Horse {
             Horse.width,
             Horse.height);
         ctx.restore();
+
+        const x = this.x - (Horse.width / 2) * Math.cos(Math.PI / 180 * this.angle);
+        const y = this.y - (Horse.height / 2) * Math.sin(Math.PI / 180 * this.angle);
+        ctx.strokeStyle = "#c82124"; //red
+        ctx.beginPath();
+        ctx.arc(x, y, 1, 0, 2 * Math.PI, true);
+        ctx.stroke();
     }
 
     onKeyDown(key) {
