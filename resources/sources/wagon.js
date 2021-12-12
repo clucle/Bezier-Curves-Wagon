@@ -5,7 +5,7 @@ class Wagon {
         this.img.src = './resources/images/wagon.png';
         this.headX = headX;
         this.headY = headY;
-        this.tailX = headX - Wagon.bezierDistance;
+        this.tailX = headX - (Wagon.bezierDistance / 2);
         this.tailY = headY;
     }
 
@@ -17,11 +17,11 @@ class Wagon {
         const P0 = { 'x': this.tailX, 'y': this.tailY };
         const P1 = { 'x': this.headX, 'y': this.headY };
         const P2 = {
-            'x': this.headX + (headX - this.headX) / distance * 128,
-            'y': this.headY + (headY - this.headY) / distance * 128
+            'x': this.headX + (headX - this.headX) / distance * Wagon.bezierDistance,
+            'y': this.headY + (headY - this.headY) / distance * Wagon.bezierDistance
         };
 
-        const t = distance / 128;
+        const t = distance / Wagon.bezierDistance;
 
         const bezier = Math.bezier2D(P0, P1, P2, t);
 
@@ -33,19 +33,21 @@ class Wagon {
     }
 
     draw(ctx) {
-        ctx.strokeStyle = "#c82124"; //red
-        ctx.beginPath();
-        ctx.arc(this.headX, this.headY, 1, 0, 2 * Math.PI, true);
-        ctx.stroke();
+        const angle = Math.atan2(this.headY - this.tailY, this.headX - this.tailX);
 
-        ctx.strokeStyle = "#21c824"; //green
-        ctx.beginPath();
-        ctx.arc(this.tailX, this.tailY, 1, 0, 2 * Math.PI, true);
-        ctx.stroke();
+        ctx.save();
+        ctx.translate(this.tailX, this.tailY);
+        ctx.rotate(angle);
+        ctx.drawImage(
+            this.img,
+            (-Wagon.width) / 2,
+            (-Wagon.height) / 2,
+            Wagon.width,
+            Wagon.height);
+        ctx.restore();
     }
-
 
     static get width() { return 54; }
     static get height() { return 54; }
-    static get bezierDistance() { return 128; }
+    static get bezierDistance() { return 54; }
 }
