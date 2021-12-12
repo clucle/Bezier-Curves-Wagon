@@ -25,8 +25,10 @@ class Wagon {
 
         const bezier = Math.bezier2D(P0, P1, P2, t);
 
-        this.tailX = bezier.x;
-        this.tailY = bezier.y;
+        if (!Number.isNaN(bezier.x) && !Number.isNaN(bezier.y)) {
+            this.tailX = bezier.x;
+            this.tailY = bezier.y;
+        }
 
         this.headX = headX;
         this.headY = headY;
