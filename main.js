@@ -10,7 +10,7 @@ function updateBoard() {
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, width, height);
 
-    horse.draw(ctx);
+    horse.update(ctx);
 }
 
 function init() {
@@ -20,3 +20,21 @@ function init() {
 }
 
 init();
+
+window.addEventListener("keydown", function(event) {
+    if (event.defaultPrevented) {
+        return;
+    }
+    if (event.key !== undefined) {
+        horse.onKeyDown(event.key);
+    }
+}, true);
+
+window.addEventListener("keyup", function(event) {
+    if (event.defaultPrevented) {
+        return;
+    }
+    if (event.key !== undefined) {
+        horse.onKeyUp(event.key);
+    }
+}, true);
